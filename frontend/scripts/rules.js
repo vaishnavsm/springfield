@@ -25,7 +25,7 @@ const updateRulesList = ()=>{
 };
 
 const classify_action = ()=>{
-    loadState("classification");
+    loadState("rules");
 };
 
 const save_state = () => {
@@ -128,7 +128,13 @@ const table_click = (e) => {
 const train_ruleset = ()=>{
     //TODO: TAKE THE DATA AND TRAIN THE RULESET.
     //structure is {ruleset: [..., {name: 'ruleset name', rules: [..., {name: 'rule name', confidence: 'confidence level', example_list: ['text1', 'text2', ...]}, ...]}, ...]}
-}
+};
+
+const apply_ruleset = ()=>{
+    //TODO: TAKE THE DATA AND APPLY THE RULESET.
+    //expected structure is {classified: [..., {name: 'document name', data: [..., {name: 'rule name', data: 'extracted data'}, ...]}, ...]}
+    loadState("classification");
+};
 
 const on_init = (_document, _store, _volatile_store)=>{
     document = _document;
@@ -158,6 +164,7 @@ const on_init = (_document, _store, _volatile_store)=>{
     $(document).find("#delete-ruleset").on('click', del_ruleset);
     $(document).find("#delete-rule").on('click', del_rule);
     $(document).find("#train-ruleset").on('click', train_ruleset);
+    $(document).find("#apply-ruleset").on('click', apply_ruleset);
     $(document).find(".list-group").on('click', select_ruleset);
     $(document).find("tbody").on('click', table_click);
 };

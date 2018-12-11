@@ -34,7 +34,7 @@ const table_click = (e) => {
 };
 
 const classify_action = ()=>{
-    loadState("classification");
+    loadState("rules");
 };
 
 const save_state = () => {

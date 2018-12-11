@@ -26,7 +26,7 @@ const load_file = (filename) => {
 };
 
 const classify_action = ()=>{
-    loadState("classification");
+    loadState("rules");
 };
 const extract_text = ()=>{
     loadState("text");
