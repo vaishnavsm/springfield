@@ -10,76 +10,58 @@
   <body>
     <div class="window">
         <header class="toolbar toolbar-header">            
-            <div class="toolbar-actions">
-                <div class="btn-group">
-                <button class="btn btn-default">
-                    <span class="icon icon-home"></span>
-                </button>
-                <button class="btn btn-default">
-                    <span class="icon icon-folder"></span>
-                </button>
-                <button class="btn btn-default active">
-                    <span class="icon icon-cloud"></span>
-                </button>
-                <button class="btn btn-default">
-                    <span class="icon icon-popup"></span>
-                </button>
-                <button class="btn btn-default">
-                    <span class="icon icon-shuffle"></span>
-                </button>
-                </div>
-            
-                <button class="btn btn-default">
-                <span class="icon icon-home icon-text"></span>
-                Filters
-                </button>
-            
-                <button class="btn btn-default btn-dropdown pull-right">
-                <span class="icon icon-megaphone"></span>
-                </button>
+            <div class="toolbar-actions" id="header">
             </div>
-            </header>
+        </header>
         <div class="window-content">
             <div class="pane-group">
                 <div class="pane-sm sidebar">
                     <nav class="nav-group">
-                        <h5 class="nav-group-title">Favorites</h5>
-                        <a class="nav-group-item active">
-                            <span class="icon icon-home"></span>
-                            connors
-                        </a>
-                        <span class="nav-group-item">
-                            <span class="icon icon-download"></span>
-                            Downloads
-                        </span>
-                        <span class="nav-group-item">
+                        <h5 class="nav-group-title">Documents and Rules</h5>
+                        <a class="nav-group-item" id="menu-documents">
                             <span class="icon icon-folder"></span>
                             Documents
-                        </span>
-                        <span class="nav-group-item">
-                            <span class="icon icon-signal"></span>
-                            AirPlay
-                        </span>
-                        <span class="nav-group-item">
-                            <span class="icon icon-print"></span>
-                            Applications
-                        </span>
-                        <span class="nav-group-item">
-                            <span class="icon icon-cloud"></span>
-                            Desktop
-                        </span>
+                        </a>
+                        <a class="nav-group-item" id="menu-text">
+                            <span class="icon icon-doc-text"></span>
+                            Text
+                        </a>    
+                        <a class="nav-group-item" id="menu-rules">
+                            <span class="icon icon-tag"></span>
+                            Rules
+                        </a>
+                    </nav>
+                    <nav class="nav-group">
+                        <h5 class="nav-group-title">Analysis</h5>
+                        <a class="nav-group-item" id="menu-classification">
+                            <span class="icon icon-cog"></span>
+                            Classification
+                        </a>
+                        <a class="nav-group-item" id="menu-analysis">
+                            <span class="icon icon-progress-2"></span>
+                            Analysis
+                        </a>
+                        <a class="nav-group-item" id="menu-export">
+                            <span class="icon icon-export"></span>
+                            Export
+                        </a>
                     </nav>
                 </div>
-                <div class= "pane">
+                <div class= "pane" id="content">
                     <div class="padded-more">
-                        Content
+                        No Content Loaded
                     </div>
                 </div>
             </div>
         </div>
         <footer class="toolbar toolbar-footer">
-
+            <div class="toolbar-actions"  id="footer">
+                
+            </div>
         </footer>
+        
     </div>
+    <div style="display: none;" id="loader"></div>
+    <script src="scripts/frontend.js"></script>
   </body>
 </html>

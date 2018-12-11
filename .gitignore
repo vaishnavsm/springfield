@@ -2,3 +2,5 @@ node_modules/
 yarn.lock
 *.pyc
 *.pyo
+*.db
+*.log

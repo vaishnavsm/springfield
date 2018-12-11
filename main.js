@@ -15,7 +15,8 @@ const initWindow = function(){
     console.log('Starting Server');
     //Start Python Dev Server
     backendProc = require("child_process").spawn("python", ['backend.py']);
-    waitForBackend();
+    // waitForBackend();
+    window.loadFile("frontend/index.html");
 };
 
 const waitForBackend = function(){
