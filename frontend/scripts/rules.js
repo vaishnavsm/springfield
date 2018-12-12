@@ -131,10 +131,58 @@ const train_ruleset = ()=>{
 };
 
 const apply_ruleset = ()=>{
-    //TODO: TAKE THE DATA AND APPLY THE RULESET.
-    //expected structure is {classified: [..., {name: 'document name', data: [..., {name: 'rule name', data: 'extracted data'}, ...]}, ...]}
-    volatile_store['classified'] = [{name: 'a', data:[{name: 'tag1', data: 'abc'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}]}, {name: 'b', data:[{name: 'tag1', data: 'www'}, {name: 'tag2', data: 'xyz'}]}];
-    loadState("classification");
+    // call the flask server
+
+    // prepare data to be sent
+    // apply_ruleset is called only when selected_ruleset!=-1
+    const ruleset = selected_ruleset;
+    var data = { "ruleset": ruleset["name"], "tags":[] };
+
+    for(var i=0; i<ruleset["rules"].length; ++i)
+        for(var j=0; j<ruleset["rules"][i]["example_list"].length; ++j)
+            data["tags"].push({
+                "field":ruleset["rules"][i]["name"],
+                "context":ruleset["rules"][i]["example_list"][j]
+            });
+
+    // apply ruleset
+    $.ajax({
+        url: "http://127.0.0.1:5122/add_rule",
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function(msg) {
+            alert(msg);
+
+            // TODO read data, not stub message and pass it
+
+            volatile_store['classified'] = [];
+            //expected structure is {classified: [..., {name: 'document name', data: [..., {name: 'rule name', data: 'extracted data'}, ...]}, ...]}
+            for(var k=0; k<volatile_store["edocs"].length; ++k) {
+                var temp = {
+                    name: volatile_store["edocs"][k]["name"],
+                    "data": []
+                };
+
+                for (var i = 0; i < ruleset["rules"].length; ++i)
+                    for (var j = 0; j < ruleset["rules"][i]["example_list"].length; ++j)
+                        temp["data"].push({
+                            name: ruleset["rules"][i]["name"],
+                            data: ruleset["rules"][i]["example_list"][j]
+                        });
+
+                volatile_store['classified'].push(temp);
+            }
+            loadState("classification");
+        },
+        error: function(request, textStatus, errorThrown) {
+            console.log(request);
+            alert('textStatus ' + textStatus);
+            alert('errorThrown ' + errorThrown);
+        }
+    });
 };
 
 const on_init = (_document, _store, _volatile_store)=>{
