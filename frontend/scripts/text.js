@@ -175,7 +175,32 @@ const add_tag = ()=>{
         alert("Invalid Rule");
         return;
     }
-    ruleset.rules[rule_idx].example_list.push("");
+
+    // save selected text in examples list
+    ruleset.rules[rule_idx].example_list.push($(document).find("#selection").val());
+
+    // call the flask server
+    var data = { "ruleset": ruleset,
+        "field": ruleset.rules[rule_idx]["name"],
+        "context": $(document).find("#selection").val()
+    };
+
+    $.ajax({
+        url: "http://127.0.0.1:5122/add_rule",
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function(msg) {
+            alert(msg);
+        },
+        error: function(request, textStatus, errorThrown) {
+            console.log(request);
+            alert('textStatus ' + textStatus);
+            alert('errorThrown ' + errorThrown);
+        }
+    });
 }
 
 const doc_blur = ()=>{

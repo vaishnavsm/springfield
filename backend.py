@@ -7,28 +7,29 @@ app = Flask(__name__)
 def echo():
     return json.dumps({"started":"true"})
 
-@app.route("/add_rule")
-def add_rule(field, data, context):
+@app.route("/add_rule", methods=['POST'])
+def add_rule():
     """Adds rule.
 
-    Args:
+    JSON Args:
+        ruleset: Name of the document type eg. Cargo-Slips, Insurance-Documents
         field: Name of the field. eg. "Insured"
-        data: Data corresponding to the field. eg. "ABC, Inc"
         context: Context around the data (including the data). eg. "Insured:\n\nABC, Inc and/or Associated"
+        Assume that words aprt from 1st and last word in context are data
     """
 
-    pass
+    return "200"
 
-@app.route("/extract")
-def extract(text, field):
+@app.route("/extract", methods=['POST'])
+def extract():
     """Extracts data.
 
-    Args:
+    JSON Args:
+        ruleset: Name of the document type eg. Cargo-Slips, Insurance-Documents
         text: Text extracted from document through OCR.
-        field: Field corresponding to which we need to extract data.
 
     Returns:
-        data: Data corresponding to the field.
+        data: Map of field and corresponding data
     """
 
     return 'XYZ'
