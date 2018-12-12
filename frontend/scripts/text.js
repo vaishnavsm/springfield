@@ -172,6 +172,7 @@ const doc_blur = ()=>{
 }
 var document, store, volatile_store;
 const on_init = (_document, _store, _volatile_store)=>{
+    selected_item = -1;
     document = _document;
     store = _store;
     volatile_store = _volatile_store;
