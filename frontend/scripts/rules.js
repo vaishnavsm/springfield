@@ -28,19 +28,6 @@ const classify_action = ()=>{
     loadState("rules");
 };
 
-const save_state = () => {
-    store.update({"key":"rulesets"}, {"key":"rulesets", "data":volatile_store['rulesets']}, {}, (err, numReplaced)=>{
-        if(err) console.log("Persistence Error: "+err.message);
-        console.log("Replaced: "+numReplaced);
-        if(numReplaced == 0){
-            store.insert({"key":"rulesets", "data":volatile_store['rulesets']}, (err, doc)=>{
-                if(err) console.log("Persistence Error: "+err.message);
-                console.log("New Doc: %o",doc);
-            });
-        }
-    });
-};
-
 const new_ruleset = ()=>{
     let ruleset_name = $(document).find("#new-ruleset").val();
     volatile_store["rulesets"].push({

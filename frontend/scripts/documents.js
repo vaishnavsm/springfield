@@ -141,24 +141,6 @@ const table_click = (e) => {
     }
 };
 
-const save_state = () => {
-    let doc_list = [];
-    for(let i = 0; i<volatile_store["documents"].length; ++i){
-        doc_list.push(volatile_store["documents"][i].name);
-    };
-    store.update({"key":"documents"}, {"key":"documents", "data":doc_list}, {}, (err, numReplaced)=>{
-        if(err) console.log("Persistence Error: "+err.message);
-        console.log("Replaced: "+numReplaced);
-        if(numReplaced == 0){
-            store.insert({"key":"documents", "data":doc_list}, (err, doc)=>{
-                if(err) console.log("Persistence Error: "+err.message);
-                console.log("New Doc: %o",doc);
-            });
-        }
-    });
-};
-
-
 const on_init = (_document, _store, _volatile_store)=>{
     document = _document;
     store = _store;

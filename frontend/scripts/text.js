@@ -37,19 +37,6 @@ const classify_action = ()=>{
     loadState("rules");
 };
 
-const save_state = () => {
-    store.update({"key":"edocs"}, {"key":"edocs", "data":volatile_store['edocs']}, {}, (err, numReplaced)=>{
-        if(err) console.log("Persistence Error: "+err.message);
-        console.log("Replaced: "+numReplaced);
-        if(numReplaced == 0){
-            store.insert({"key":"edocs", "data":volatile_store['edocs']}, (err, doc)=>{
-                if(err) console.log("Persistence Error: "+err.message);
-                console.log("New Doc: %o",doc);
-            });
-        }
-    });
-};
-
 const ocr = ()=>{
     //TODO: MIDDLEWARE TO OCRs
     volatile_store['edocs'] = [ {"name":"abc", "type":"pdf", "data":"Lorem ipsum dolor sit amet, id dicant numquam pro. Cu dicit splendide vis, docendi noluisse per id, te eos odio adipiscing. Id ius fugit timeam constituam, labitur concludaturque his cu, mei possim philosophia in. Quo in agam decore munere, at per errem maiorum, eu magna senserit pro. In nam invidunt liberavisse. Vis facilisi suavitate percipitur te, eum scripta probatus rationibus an, te affert recusabo est.\n\nConsul nostro vim et. Ne his lucilius conclusionemque. Audire dolorem ex vix, sensibus splendide scriptorem eam ea. Audiam viderer interpretaris te vim. Id qui suas cetero theophrastus. Ex vel assum molestie. Quodsi aliquid suscipiantur te usu.\n\nEa augue commune pro. Eirmod impedit pro ut, sea at option tritani. Odio intellegat honestatis no eam, vocent civibus assentior ut est, purto constituto ea ius. Vis equidem denique periculis at, ea soluta appareat voluptatibus sed. Est nemore tamquam ad, ad cibo atqui erant est.\n\nGubergren persecuti vis ei, mel fastidii detraxit postulant ea. Fabulas salutandi has no. Cu aperiam pertinax quo. Sit eius facilis complectitur ut, ne agam detracto singulis his. No oratio scripta definitionem mel, tale viderer virtute vis an. Nam cu eros integre.\n\nIn scaevola consequat interpretaris vix, ex veritus eleifend interesset eos, ex torquatos maiestatis sit. Nam velit disputando repudiandae ut, eam lorem diceret et. Vix minimum offendit partiendo ut, sumo liber rationibus vim at, ex posse iracundia hendrerit vim. Mentitum partiendo eu has.\n\nVel nulla omnes eligendi eu. At pri graeci inermis vivendum. At timeam copiosae euripidis eos, at eam eros noster intellegebat. Sed ea appetere repudiandae, id sed nostrud blandit nominavi.\n\nEx eruditi epicurei vis. Eos dicta euismod debitis ne, his semper singulis et, pro odio euismod at. Ut usu laudem dissentiunt, an qui eros meis atomorum. Sea equidem nostrum ad, no audiam vulputate mei. Labores persecuti cu eos, vix commodo tractatos deterruisset at, wisi error sit te.\n\nEum ut nibh magna contentiones, sit veri honestatis definitionem ex, nulla expetenda honestatis per in. Fierent expetenda his ei. Fugit vocibus legendos et duo. Hinc duis mel te, verear dignissim sit an, soluta elaboraret id sit. An consul propriae accusata est. Ut tollit deleniti euripidis sed, aliquam atomorum mediocritatem an his.\n\nTe prompta legendos signiferumque sed, sea no graeco delectus delicatissimi. Amet alii facete ius ne, semper persius albucius qui ea, facete contentiones concludaturque eum an. Ei modo habemus reprehendunt mea. Te ridens complectitur qui, ne vivendum gloriatur nec.\n\nQuo te tincidunt mnesarchum, usu eu modus graeco. Cum oratio mucius ne, id quaestio interpretaris sit, dicit denique ad sit. Cum in purto clita decore, in mel similique rationibus deterruisset. No pro dolorum philosophia, dolorum nominati ius ea. Ferri consetetur eam te."},

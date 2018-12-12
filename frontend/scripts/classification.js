@@ -4,19 +4,6 @@ const export_action = ()=>{
     loadState("export");
 };
 
-const save_state = () => {
-    store.update({"key":"classified"}, {"key":"classified", "data":volatile_store['classified']}, {}, (err, numReplaced)=>{
-        if(err) console.log("Persistence Error: "+err.message);
-        console.log("Replaced: "+numReplaced);
-        if(numReplaced == 0){
-            store.insert({"key":"classified", "data":volatile_store['classified']}, (err, doc)=>{
-                if(err) console.log("Persistence Error: "+err.message);
-                console.log("New Doc: %o",doc);
-            });
-        }
-    });
-};
-
 const updateDocumentList = ()=>{
     $(document).find(".list-group .list-group-item").remove();
     for(let i=0; i<volatile_store["classified"].length; ++i){
