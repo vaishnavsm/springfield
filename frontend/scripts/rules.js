@@ -133,10 +133,13 @@ const train_ruleset = ()=>{
 const apply_ruleset = ()=>{
     //TODO: TAKE THE DATA AND APPLY THE RULESET.
     //expected structure is {classified: [..., {name: 'document name', data: [..., {name: 'rule name', data: 'extracted data'}, ...]}, ...]}
+    volatile_store['classified'] = [{name: 'a', data:[{name: 'tag1', data: 'abc'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}, {name: 'tag2', data: 'edf'}]}, {name: 'b', data:[{name: 'tag1', data: 'www'}, {name: 'tag2', data: 'xyz'}]}];
     loadState("classification");
 };
 
 const on_init = (_document, _store, _volatile_store)=>{
+    selected_ruleset = -1;
+    selected_item = -1;
     document = _document;
     store = _store;
     volatile_store = _volatile_store;
