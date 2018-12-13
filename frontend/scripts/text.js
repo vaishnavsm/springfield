@@ -38,19 +38,6 @@ const classify_action = ()=>{
     loadState("rules");
 };
 
-const save_state = () => {
-    store.update({"key":"edocs"}, {"key":"edocs", "data":volatile_store['edocs']}, {}, (err, numReplaced)=>{
-        if(err) console.log("Persistence Error: "+err.message);
-        console.log("Replaced: "+numReplaced);
-        if(numReplaced == 0){
-            store.insert({"key":"edocs", "data":volatile_store['edocs']}, (err, doc)=>{
-                if(err) console.log("Persistence Error: "+err.message);
-                console.log("New Doc: %o",doc);
-            });
-        }
-    });
-};
-
 const ocr = ()=>{
     volatile_store['documents'].forEach(function(document){
         pdfUtil.pdfToText(document["name"], function(err, result) {
