@@ -6,27 +6,42 @@ const export_action = ()=>{
 };
 
 const create_pie_chart = ()=>{
+    var mLabels = [];
+    var mData = [];
+    var mBColor = [];
+
+    const colors = [
+        'rgba(255, 99, 132, 0.4)',
+        'rgba(54, 162, 235, 0.4)',
+        'rgba(255, 206, 86, 0.4)',
+        'rgba(75, 192, 192, 0.4)',
+        'rgba(153, 102, 255, 0.4)',
+    ];
+
+    for(var i=0; i < volatile_store["rulesets"].length; ++i)
+        if (volatile_store["rulesets"][i]["rules"].length > 0){
+            mLabels.push(volatile_store["rulesets"][i]["name"]);
+
+            for(var j=0; j < volatile_store["rulesets"][i]["rules"].length; ++j){ // TODO hack
+                // if (volatile_store["rulesets"][i]["rules"][j]["examples_list"] !== undefined){
+                mData.push(j); //volatile_store["rulesets"][i]["rules"][j]["examples_list"].length);
+                mBColor.push(colors[i%colors.length]);
+            }
+        }
+
+    console.log(mLabels);
+    console.log(mData);
+    console.log(mBColor);
+
     new Chart(document.getElementById('myChart').getContext('2d'), {
         type: 'pie',
         data: {
             datasets: [{
-                data: [10,20,30,40,10],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)',
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                ],
-                label: 'Dataset 1'
+                data: mData,
+                backgroundColor: mBColor,
+                label: 'Tagged Rule Examples'
             }],
-            labels: [
-                'Red',
-                'Orange',
-                'Yellow',
-                'Green',
-                'Blue'
-            ]
+            labels: mLabels
         },
         options: {
             responsive: true
@@ -35,12 +50,19 @@ const create_pie_chart = ()=>{
 };
 
 const create_bar_chart = () =>{
+    var mLabels = [];
+
+    for(var i=0; i < volatile_store["rulesets"].length; ++i)
+        if (volatile_store["rulesets"][i]["rules"].length > 0)
+            mLabels.push(volatile_store["rulesets"][i]["name"]);
+
+
     new Chart(document.getElementById("myChart").getContext('2d'), {
         type: 'bar',
         data: {
-            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            labels: mLabels,
             datasets: [{
-                label: '# of Votes',
+                label: 'Confidence Levels',
                 data: [12, 19, 3, 5, 2, 3],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
@@ -81,13 +103,23 @@ const on_init = (_document, _store, _volatile_store)=>{
     $(document).find("#export").on('click', export_action);
     $(document).find("#save-state").on('click', save_state);
     $(document).find("#myButton1").on('click', function () {
-        create_pie_chart();
+        if (volatile_store["rulesets"]!==undefined){
+            create_pie_chart();
+        }else
+            alert("Select a ruleset first");
     });
     $(document).find("#myButton2").on('click', function () {
-        create_bar_chart();
+        if (volatile_store["rulesets"]!==undefined){
+            create_bar_chart();
+        }else
+            alert("Select a ruleset first");
     });
 
-    create_pie_chart(); // by default
+    if (volatile_store["rulesets"]!==undefined){
+        create_pie_chart(); // by default
+    }else
+        alert("Select a ruleset first");
+
 };
 
 const on_unload = (document)=>{
