@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import time
 import json
 import regex
@@ -47,7 +47,8 @@ def add_rule():
     for field_dict in request.json['tags']:
         context = field_dict['context']
         field = field_dict['field']
-        data = ' '.join(context.split()[1:-1]) # hack
+        data = context.split(" ",1)[1] # hack
+        data = data.rsplit(" ",1)[0]
         
         if data in context:
             pattern = context.replace(data, '(.+)')
@@ -91,16 +92,25 @@ def extract():
     for file_dict in request.json['files']:
         name = file_dict['name'] 
         content = file_dict['content']
-        
-        output[name] = dict()
+
+        output[name] = []
         
         regexps_ruleset = regexps.get(ruleset, dict())
         for field in regexps_ruleset.keys():
             regexp = regexps_ruleset[field]
-            data = regex.search("(%s){e<=1}" % regexp, content, regex.BESTMATCH).groups()[1]
-            output[name][field] = data 
+            result = regex.search("(%s){e<=1}" % regexp, content, regex.BESTMATCH)
+            temp = {"key":field}
 
-    return output
+            if result is None:
+                temp["val"] = " "
+            else:
+                if len(result.groups())>1:
+                    temp["val"] = result.groups()[1]
+                else:
+                    temp["val"] = " "
+            output[name].append(temp)
+
+    return jsonify(output)
 
 if __name__ == "__main__":
     app.run(host='127.0.0.1', port=5122)

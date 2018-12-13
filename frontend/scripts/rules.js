@@ -113,11 +113,6 @@ const table_click = (e) => {
 };
 
 const train_ruleset = ()=>{
-    //TODO: TAKE THE DATA AND TRAIN THE RULESET.
-    //structure is {ruleset: [..., {name: 'ruleset name', rules: [..., {name: 'rule name', confidence: 'confidence level', example_list: ['text1', 'text2', ...]}, ...]}, ...]}
-};
-
-const apply_ruleset = ()=>{
     // call the flask server
 
     // prepare data to be sent
@@ -141,9 +136,44 @@ const apply_ruleset = ()=>{
         dataType: 'json',
         async: false,
         success: function(msg) {
-            alert(msg);
+            if (msg=="200")
+                alert("Training Successful");
+            else
+                alert(msg);
+            console.log(msg);
+        },
+        error: function(request, textStatus, errorThrown) {
+            console.log(request);
+            console.log(JSON.stringify(data));
+            alert('textStatus ' + textStatus);
+            alert('errorThrown ' + errorThrown);
+        }
+    });
+};
 
-            // TODO read data, not stub message and pass it
+const apply_ruleset = ()=>{
+    // call the flask server
+
+    // prepare data to be sent
+    // apply_ruleset is called only when selected_ruleset!=-1
+    var data = { "ruleset": selected_ruleset["name"], "files":[] };
+
+    for(var i=0; i<volatile_store['edocs'].length; ++i)
+        data["files"].push({
+            "name":volatile_store['edocs'][i]["name"],
+            "content":volatile_store['edocs'][i]["data"]
+        });
+
+    // apply ruleset
+    $.ajax({
+        url: "http://127.0.0.1:5122/extract",
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function(response) {
+            console.log(response);
 
             volatile_store['classified'] = [];
             //expected structure is {classified: [..., {name: 'document name', data: [..., {name: 'rule name', data: 'extracted data'}, ...]}, ...]}
@@ -153,12 +183,11 @@ const apply_ruleset = ()=>{
                     "data": []
                 };
 
-                for (var i = 0; i < ruleset["rules"].length; ++i)
-                    for (var j = 0; j < ruleset["rules"][i]["example_list"].length; ++j)
-                        temp["data"].push({
-                            name: ruleset["rules"][i]["name"],
-                            data: ruleset["rules"][i]["example_list"][j]
-                        });
+                for (var i = 0; i < response[volatile_store["edocs"][k]["name"]].length; ++i)
+                    temp["data"].push({
+                        name: response[volatile_store["edocs"][k]["name"]][i]["key"],
+                        data: response[volatile_store["edocs"][k]["name"]][i]["val"]
+                    });
 
                 volatile_store['classified'].push(temp);
             }
