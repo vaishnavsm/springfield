@@ -1,5 +1,6 @@
 var selected_item = -1, viewing_item = -1, current_ruleset=-1;
 var pdfUtil = require('pdf-to-text');
+const textract = require('textract');
 
 const updateDocumentList = ()=>{
     $(document).find("table tbody").empty();
@@ -40,21 +41,32 @@ const classify_action = ()=>{
 
 const ocr = ()=>{
     volatile_store['documents'].forEach(function(document){
-        pdfUtil.pdfToText(document["name"], function(err, result) {
-            if (err) {
-                console.log(err+". Error while extracting document"+document["name"]);
-                alert("Error in reading OCR");
-            }else {
-                //output the document object:
-                console.log(result);
+        if (document["name"].endsWith(".pdf"))
+            pdfUtil.pdfToText(document["name"], function(err, result) {
+                if (err) {
+                    console.log(err+". Error while extracting document"+document["name"]);
+                    alert("Error in reading OCR");
+                }else {
+                    //output the document object:
+                    volatile_store['edocs'].push({
+                        "name": document["name"],
+                        "type": document["type"],
+                        "data": result
+                    });
+                    updateDocumentList();
+                }
+            });
+        else if (document["name"].endsWith(".docx") || document["name"].endsWith(".doc"))
+            textract.fromFileWithPath(document["name"], function( error, text ) {
+                console.log(error);
+
                 volatile_store['edocs'].push({
                     "name": document["name"],
                     "type": document["type"],
-                    "data": result
+                    "data": text
                 });
                 updateDocumentList();
-            }
-        });
+            });
     });
 };
 
