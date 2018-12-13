@@ -73,6 +73,7 @@ const add_rule = ()=>{
     selected_ruleset.rules.push({
         name: rule_name,
         example_list: [],
+        context_list: [],
         confidence: 0
     });
     updateRulesList();
@@ -124,7 +125,8 @@ const train_ruleset = ()=>{
         for(var j=0; j<ruleset["rules"][i]["example_list"].length; ++j)
             data["tags"].push({
                 "field":ruleset["rules"][i]["name"],
-                "context":ruleset["rules"][i]["example_list"][j]
+                "data":ruleset["rules"][i]["example_list"][j],
+                "context":ruleset["rules"][i]["context_list"][j]
             });
 
     // apply ruleset

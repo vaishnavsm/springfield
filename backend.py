@@ -18,8 +18,8 @@ def add_rule():
         ruleset: Name of the document type eg. Cargo-Slips, Insurance-Documents
         tags: a list of field and context
             field: Name of the field. eg. "Insured"
+            data: Info of interest
             context: Context around the data (including the data). eg. "Insured:\n\nABC, Inc and/or Associated"
-            Assume that words aprt from 1st and last word in context are data
 
     Demo data:
     {
@@ -27,14 +27,17 @@ def add_rule():
     	"tags":[
     		{
     			"field":"Company-Name",
+    			"data":"Lloyd & Partners Pvt. Ltd.",
     			"context":"are Lloyd & Partners Pvt. Ltd. not"
     		},
     		{
     			"field":"Balance-Paid",
+    			"data":"1,500,000",
     			"context":"USD 1,500,000 any"
     		},
     		{
     			"field":"Policy-ID",
+    			"data":"B0000DC1234567000",
     			"context":"Reference:        B0000DC1234567000 Attaching"
     		}
     	]
@@ -47,8 +50,7 @@ def add_rule():
     for field_dict in request.json['tags']:
         context = field_dict['context']
         field = field_dict['field']
-        data = context.split(" ",1)[1] # hack
-        data = data.rsplit(" ",1)[0]
+        data = field_dict['data']
         
         if data in context:
             pattern = context.replace(data, '(.+)')

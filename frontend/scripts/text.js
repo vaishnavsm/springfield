@@ -1,4 +1,5 @@
 var selected_item = -1, viewing_item = -1, current_ruleset=-1;
+var s, e;
 var pdfUtil = require('pdf-to-text');
 const textract = require('textract');
 
@@ -176,7 +177,9 @@ const add_tag = ()=>{
     }
 
     // save selected text in examples list
+    // save context chars in context_list
     ruleset.rules[rule_idx].example_list.push($(document).find("#selection").val());
+    ruleset.rules[rule_idx].context_list.push($(document).find("#doc-text").val().substring(s-10, e+10));
 }
 
 const doc_blur = ()=>{
