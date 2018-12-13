@@ -21,6 +21,7 @@
     "pdf-to-text": "^0.0.7",
     "remote": "^0.2.6",
     "request-promise": "^4.2.2",
-    "chart.js": "^2.7.3"
+    "chart.js": "^2.7.3",
+    "html-pdf": "^2.2.0"
   }
 }

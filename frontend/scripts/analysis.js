@@ -20,10 +20,9 @@ const create_pie_chart = ()=>{
 
     for(var i=0; i < volatile_store["rulesets"].length; ++i)
         if (volatile_store["rulesets"][i]["rules"].length > 0){
-            mLabels.push(volatile_store["rulesets"][i]["name"]);
-
             for(var j=0; j < volatile_store["rulesets"][i]["rules"].length; ++j){ // TODO hack
                 // if (volatile_store["rulesets"][i]["rules"][j]["examples_list"] !== undefined){
+                mLabels.push(volatile_store["rulesets"][i]["rules"][j]["name"]);
                 mData.push(j); //volatile_store["rulesets"][i]["rules"][j]["examples_list"].length);
                 mBColor.push(colors[i%colors.length]);
             }
