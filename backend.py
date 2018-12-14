@@ -51,13 +51,23 @@ def add_rule():
         field = field_dict['field']
         data = field_dict['data']
 
-        print(context, "|||", data)
-        
-        if data in context:
-            pattern = context.replace(data, '(.{0,70})')
-        else:
-            return 'Context should contain data'
+        if data not in context:
+            return 'Context should contain data.'
 
+        data_pattern = '(['
+        if regex.search(r'[a-z]', data):
+            data_pattern += 'a-z'
+        if regex.search(r'[A-Z]', data):
+            data_pattern += 'A-Z' 
+        if regex.search(r'[0-9]', data):
+            data_pattern += '0-9'
+        if regex.search(r'\s', data):
+            data_pattern += r'\s'
+        if regex.search(r'[^a-zA-Z0-9\s]', data):
+            data_pattern += '.'
+        data_pattern += ']{0,' + str(len(data) + 20) + '})'
+
+        pattern = context.replace(data, data_pattern)
         regexps[ruleset][field] = pattern
 
     return "200"
