@@ -48,6 +48,7 @@ const ocr = ()=>{
                     console.log(err+". Error while extracting document"+document["name"]);
                     alert("Error in reading OCR");
                 }else {
+                    result = result.replace(/\s+/g, ' ').trim();
                     //output the document object:
                     volatile_store['edocs'].push({
                         "name": document["name"],
@@ -58,13 +59,13 @@ const ocr = ()=>{
                 }
             });
         else if (document["name"].endsWith(".docx") || document["name"].endsWith(".doc"))
-            textract.fromFileWithPath(document["name"], function( error, text ) {
+            textract.fromFileWithPath(document["name"], function( error, result ) {
                 console.log(error);
-
+                result = result.replace(/\s+/g, ' ').trim();
                 volatile_store['edocs'].push({
                     "name": document["name"],
                     "type": document["type"],
-                    "data": text
+                    "data": result
                 });
                 updateDocumentList();
             });
@@ -179,7 +180,7 @@ const add_tag = ()=>{
     // save selected text in examples list
     // save context chars in context_list
     ruleset.rules[rule_idx].example_list.push($(document).find("#selection").val());
-    ruleset.rules[rule_idx].context_list.push($(document).find("#doc-text").val().substring(s-10, e+10));
+    ruleset.rules[rule_idx].context_list.push($(document).find("#doc-text").val().substring(s-7, e+7));
 }
 
 const doc_blur = ()=>{

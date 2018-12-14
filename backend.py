@@ -4,7 +4,6 @@ import json
 import regex
 app = Flask(__name__)
 regexps = dict()
-ERROR_TOLERANCE = 2
 
 @app.route("/")
 def echo():
@@ -51,12 +50,14 @@ def add_rule():
         context = field_dict['context']
         field = field_dict['field']
         data = field_dict['data']
+
+        print(context, "|||", data)
         
         if data in context:
-            pattern = context.replace(data, '(.+)')
+            pattern = context.replace(data, '(.{0,70})')
         else:
-            raise Exception('Context should contain data.')
-        
+            return 'Context should contain data'
+
         regexps[ruleset][field] = pattern
 
     return "200"
@@ -94,13 +95,13 @@ def extract():
     for file_dict in request.json['files']:
         name = file_dict['name'] 
         content = file_dict['content']
-
         output[name] = []
         
         regexps_ruleset = regexps.get(ruleset, dict())
         for field in regexps_ruleset.keys():
             regexp = regexps_ruleset[field]
-            result = regex.search("(%s){e<=1}" % regexp, content, regex.BESTMATCH)
+            result = regex.search("(?b)(%s){e<=7}" % regexp, content)
+
             temp = {"key":field}
 
             if result is None:
