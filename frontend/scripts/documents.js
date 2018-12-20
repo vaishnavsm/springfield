@@ -5,8 +5,8 @@ var fs = require('fs');
 var path = require('path');
 
 
-const accepted_types = ['png','jpg','jpeg', 'pdf'];
-const prefix_to_type = {'png':'png', 'jpg':'jpeg', 'jpeg':'jpeg', 'pdf':'pdf'};
+const accepted_types = ['png','jpg','jpeg', 'pdf', 'doc', 'docx'];
+const prefix_to_type = {'png':'png', 'jpg':'jpeg', 'jpeg':'jpeg', 'pdf':'pdf', 'docx':'docx', 'doc':'docx'};
 
 const load_file = (filename) => {
     const filetype_indicators = filename.split(".");
@@ -47,6 +47,24 @@ const add_document = ()=>{
         }
     });    
 };
+
+const add_word = ()=>{
+    dialog.showOpenDialog({properties: ['openFile', 'multiSelections']}, (fileNames) => {
+        if(fileNames === undefined){
+            console.log("No file selected");
+            return;
+        }
+        for(let i = 0; i < fileNames.length; ++i){
+            let filename = fileNames[i];
+            if(!(filename.endsWith(".docx") || filename.endsWith(".doc"))){
+                alert(filename+" is not a word document!");
+                continue;
+            }
+            load_file(filename);
+        }
+    });
+};
+
 const add_image = ()=>{
     dialog.showOpenDialog({properties: ['openFile', 'multiSelections']}, (fileNames) => {
         if(fileNames === undefined){
@@ -58,6 +76,7 @@ const add_image = ()=>{
         }
     });    
 };
+
 const add_folder = ()=>{
     dialog.showOpenDialog({properties: ['openFile', 'openDirectory']}, (fileNames) => {
         if(fileNames === undefined){
@@ -150,6 +169,7 @@ const on_init = (_document, _store, _volatile_store)=>{
     $(document).find("#add-document").on('click', add_document);
     $(document).find("#add-image").on('click', add_image);
     $(document).find("#add-folder").on('click', add_folder);
+    $(document).find("#add-word").on('click', add_word);
     $(document).find("#clear-all").on('click', clear_all);
     $(document).find("#clear-selected").on('click', clear_selected);
     $(document).find("#save-state").on('click', save_state);
