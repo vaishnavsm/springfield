@@ -10,7 +10,7 @@ First you need to install Node.js. If you already have Node.js installed, skip t
 
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash
-export NVM_DIR="$HOME/.nvm"
+source ~/.bashrc
 nvm install node
 ```
 
